@@ -1,0 +1,6 @@
+@FaceBot.WebApi_HostAddress = http://localhost:5208
+
+GET {{FaceBot.WebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
