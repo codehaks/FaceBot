@@ -43,28 +43,20 @@ public class FaceController : ControllerBase
 
         Response.StatusCode = 200;
         Response.Headers.Append(HeaderNames.ContentDisposition, $"attachment; filename=\"face{number}.jpg\"");
-        Response.Headers.Append(HeaderNames.ContentType, "application/octet-stream");
-
-        //-------------------
-        byte[] buffer = new byte[16 * 1024];
-        long totalBytes = fileStream.Length;
-
-        long totalReadBytes = 0;
-        int readBytes;
+        Response.ContentType = "image/jpeg"; // Set more specific content type for JPEG images
 
         var outputStream = Response.Body;
 
-        while ((readBytes = fileStream.Read(buffer, 0, buffer.Length)) > 0)
+        await using (outputStream)
         {
-            await outputStream.WriteAsync(buffer, 0, readBytes);
-            totalReadBytes += readBytes;
+            byte[] buffer = new byte[16 * 1024];
+            int readBytes;
+
+            while ((readBytes = await fileStream.ReadAsync(buffer, 0, buffer.Length)) > 0)
+            {
+                await outputStream.WriteAsync(buffer, 0, readBytes);
+            }
         }
-
-        //-------------------
-
-        fileStream.Close();
-
-        await outputStream.FlushAsync();
 
     }
 
