@@ -39,7 +39,9 @@ public class FaceController : ControllerBase
     {
         FindRandomFile(out int number, out string randomFile);
 
-        using var fileStream = new FileStream(randomFile, FileMode.Open);
+        _logger.LogInformation("File Found: {0}", number);
+
+        using var fileStream = new FileStream(randomFile, FileMode.Open,FileAccess.Read);
 
         Response.StatusCode = 200;
         Response.Headers.Append(HeaderNames.ContentDisposition, $"attachment; filename=\"face{number}.jpg\"");
@@ -58,6 +60,7 @@ public class FaceController : ControllerBase
             }
         }
 
+        _logger.LogInformation("File Found Sent: {0}", number);
     }
 
 }
