@@ -1,6 +1,10 @@
-@FaceBot.WebApi_HostAddress = http://localhost:5208
+@FaceBot.WebApi_HostAddress = https://localhost:7111
 
-GET {{FaceBot.WebApi_HostAddress}}/weatherforecast/
-Accept: application/json
+
+GET {{FaceBot.WebApi_HostAddress}}/face/bytes
+
+###
+
+GET {{FaceBot.WebApi_HostAddress}}/face/stream
 
 ###
