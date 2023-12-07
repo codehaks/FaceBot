@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
-using System.Net.WebSockets;
-using System.Transactions;
 
 namespace FaceBot.WebApi.Controllers;
 [ApiController]
