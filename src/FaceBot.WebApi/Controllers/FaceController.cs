@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace FaceBot.WebApi.Controllers;
 [ApiController]
@@ -17,6 +18,7 @@ public class FaceController : ControllerBase
     {
         FindRandomFile(out int number, out string randomFile);
 
+        _logger.LogInformation($"File Id {number} and name {randomFile}");
         var bytes = await System.IO.File.ReadAllBytesAsync(randomFile);
 
         return File(bytes, "imagee/jpg", $"face{number}.jpg", true);
