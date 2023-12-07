@@ -19,6 +19,7 @@ public class FaceController : ControllerBase
         FindRandomFile(out int number, out string randomFile);
 
         _logger.LogInformation($"File Id {number} and name {randomFile}");
+
         var bytes = await System.IO.File.ReadAllBytesAsync(randomFile);
 
         return File(bytes, "imagee/jpg", $"face{number}.jpg", true);
