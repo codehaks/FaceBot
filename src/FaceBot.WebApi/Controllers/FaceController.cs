@@ -2,9 +2,22 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace FaceBot.WebApi.Controllers;
+
+public class FaceInfo
+{
+    public int Id { get; set; }
+    public required string Name { get; set; }
+}
+
+internal static partial class Log
+{
+    [LoggerMessage(LogLevel.Information, message: "Random Face {faceInfo}")]
+    public static partial void LogRandomFaceInfo(this ILogger logger,[LogProperties] FaceInfo faceInfo);
+}
+
 [ApiController]
 [Route("[controller]")]
-public class FaceController : ControllerBase
+public partial class FaceController : ControllerBase
 {
     private readonly ILogger<FaceController> _logger;
 
@@ -13,12 +26,16 @@ public class FaceController : ControllerBase
         _logger = logger;
     }
 
+
     [HttpGet]
     public async Task<IActionResult> Get()
     {
         FindRandomFile(out int number, out string randomFile);
 
-        _logger.LogInformation($"File Id {number} and name {randomFile}");
+        var logInfo = new FaceInfo { Id = number, Name = randomFile };
+        //_logger.LogInformation("File Id {number} and name {randomFile}",number,randomFile);
+        _logger.LogRandomFaceInfo(logInfo);
+        
 
         var bytes = await System.IO.File.ReadAllBytesAsync(randomFile);
 
@@ -33,5 +50,6 @@ public class FaceController : ControllerBase
     }
 
 }
+
 
 
