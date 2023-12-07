@@ -14,7 +14,6 @@ public class FaceController : ControllerBase
     }
 
     [HttpGet]
-    [Route("bytes")]
     public async Task<IActionResult> Get()
     {
         FindRandomFile(out int number, out string randomFile);
@@ -29,36 +28,6 @@ public class FaceController : ControllerBase
         var files = System.IO.Directory.GetFiles(@"G:\Projects\Data\Fake-Faces");
         number = new Random().Next(0, files.Length);
         randomFile = files[number];
-    }
-
-    [HttpGet]
-    [Route("stream")]
-    public async Task GetStream()
-    {
-        FindRandomFile(out int number, out string randomFile);
-
-        _logger.LogInformation("File Found: {0}", number);
-
-        using var fileStream = new FileStream(randomFile, FileMode.Open,FileAccess.Read);
-
-        Response.StatusCode = 200;
-        Response.Headers.Append(HeaderNames.ContentDisposition, $"attachment; filename=\"face{number}.jpg\"");
-        Response.ContentType = "image/jpeg"; // Set more specific content type for JPEG images
-
-        var outputStream = Response.Body;
-
-        await using (outputStream)
-        {
-            byte[] buffer = new byte[16 * 1024];
-            int readBytes;
-
-            while ((readBytes = await fileStream.ReadAsync(buffer, 0, buffer.Length)) > 0)
-            {
-                await outputStream.WriteAsync(buffer, 0, readBytes);
-            }
-        }
-
-        _logger.LogInformation("File Found Sent: {0}", number);
     }
 
 }
