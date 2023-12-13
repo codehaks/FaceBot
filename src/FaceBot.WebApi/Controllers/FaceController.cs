@@ -7,10 +7,11 @@ namespace FaceBot.WebApi.Controllers;
 public class FaceController : ControllerBase
 {
     private readonly ILogger<FaceController> _logger;
-
-    public FaceController(ILogger<FaceController> logger)
+    private readonly IWebHostEnvironment _webHostEnvironment;
+    public FaceController(ILogger<FaceController> logger, IWebHostEnvironment webHostEnvironment)
     {
         _logger = logger;
+        _webHostEnvironment = webHostEnvironment;
     }
 
     [HttpGet]
@@ -24,9 +25,10 @@ public class FaceController : ControllerBase
         return File(bytes, "image/jpg", $"face{number}.jpg", true);
     }
 
-    private static void FindRandomFile(out int number, out string randomFile)
+    private void FindRandomFile(out int number, out string randomFile)
     {
-        var files = System.IO.Directory.GetFiles(@"G:\Projects\Data\Fake-Faces");
+        var path = Path.Combine(_webHostEnvironment.ContentRootPath, "Images");
+        var files = System.IO.Directory.GetFiles(path);
         number = new Random().Next(0, files.Length);
         randomFile = files[number];
     }

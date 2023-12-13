@@ -1,11 +1,9 @@
 version: '3'
 services:
-  myservice:
-    build:
-      context: ./path/to/your/Dockerfile  # Path to your Dockerfile directory
-      dockerfile: Dockerfile  # Dockerfile name if different from default 'Dockerfile'
+  webapi:
+    build: .
     ports:
-      - "8080:8080" # Replace with your desired port configuration
+      - "8070:8080" # Replace with your desired port configuration
     deploy:
       resources:
         limits:
