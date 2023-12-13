@@ -15,13 +15,24 @@ COPY . .
 WORKDIR "/src/src/FaceBot.WebApi"
 RUN dotnet build "./FaceBot.WebApi.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
+# Install dotnet debug tools
+RUN dotnet tool install --tool-path /tools dotnet-trace \
+ && dotnet tool install --tool-path /tools dotnet-counters \
+ && dotnet tool install --tool-path /tools dotnet-dump \
+ && dotnet tool install --tool-path /tools dotnet-gcdump
+
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "./FaceBot.WebApi.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
+# Copy dotnet-tools
+WORKDIR /tools
+COPY --from=publish /tools .
+
 WORKDIR /app
 COPY --from=publish /app/publish .
 COPY ["src/FaceBot.WebApi/Images", "/app/Images"]
+
 
 ENTRYPOINT ["dotnet", "FaceBot.WebApi.dll"]
