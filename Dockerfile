@@ -22,4 +22,6 @@ RUN dotnet publish "./FaceBot.WebApi.csproj" -c $BUILD_CONFIGURATION -o /app/pub
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+COPY ["src/FaceBot.WebApi/Images", "/app/Images"]
+
 ENTRYPOINT ["dotnet", "FaceBot.WebApi.dll"]
