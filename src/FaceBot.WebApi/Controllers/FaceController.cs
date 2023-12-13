@@ -21,7 +21,7 @@ public class FaceController : ControllerBase
 
         var bytes = await System.IO.File.ReadAllBytesAsync(randomFile);
 
-        return File(bytes, "imagee/jpg", $"face{number}.jpg", true);
+        return File(bytes, "image/jpg", $"face{number}.jpg", true);
     }
 
     private static void FindRandomFile(out int number, out string randomFile)
