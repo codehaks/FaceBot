@@ -24,6 +24,8 @@ else
     app.UseHsts();
 }
 
+app.MapGet("/", () => { return "Working!"; });
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

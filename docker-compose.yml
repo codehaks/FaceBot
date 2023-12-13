@@ -3,7 +3,7 @@ services:
   webapi:
     build: .
     ports:
-      - "8070:8081" # Replace with your desired port configuration
+      - "8070:8080" # Replace with your desired port configuration
     deploy:
       resources:
         limits:
