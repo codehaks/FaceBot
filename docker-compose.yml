@@ -1,0 +1,13 @@
+version: '3'
+services:
+  myservice:
+    build:
+      context: ./path/to/your/Dockerfile  # Path to your Dockerfile directory
+      dockerfile: Dockerfile  # Dockerfile name if different from default 'Dockerfile'
+    ports:
+      - "8080:8080" # Replace with your desired port configuration
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5' # Set CPU limit to 50% of a single CPU core
+          memory: 512M # Set memory limit to 512 megabytes
