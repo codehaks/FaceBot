@@ -1,6 +1,6 @@
-version: '3'
+version: '3.9'
 services:
-  webapi:
+  facebot-api:
     build: .
     ports:
       - "8070:8080" # Replace with your desired port configuration
